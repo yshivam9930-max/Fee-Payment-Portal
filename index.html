@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Payment Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .student-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 700;
+        }
+
+        .fee-structure {
+            margin-bottom: 20px;
+        }
+
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .fee-item-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .fee-item-amount {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .total-amount {
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .payment-method.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .payment-method-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .payment-method-name {
+            font-weight: 600;
+        }
+
+        .receipt {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .receipt.show {
+            display: block;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .receipt-header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .receipt-header p {
+            color: #666;
+        }
+
+        .receipt-body {
+            margin-bottom: 30px;
+        }
+
+        .receipt-section {
+            margin-bottom: 25px;
+        }
+
+        .receipt-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .receipt-table th,
+        .receipt-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .receipt-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .receipt-total {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+            color: #666;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            background: #4caf50;
+            color: white;
+        }
+
+        .transaction-id {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px dashed #667eea;
+        }
+
+        .transaction-id-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .transaction-id-value {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-print {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #1976d2;
+        }
+
+        .btn-download {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #f57c00;
+        }
+
+        .btn-new {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-new:hover {
+            background: #45a049;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .payment-history {
+            grid-column: 1 / -1;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .history-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .history-table tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .main-content,
+            .header,
+            .action-buttons {
+                display: none !important;
+            }
+
+            .receipt {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Fee Payment Portal</h1>
+            <p>Greenwood International School & College</p>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <!-- Student Search Card -->
+            <div class="card">
+                <h2>🔍 Student Information</h2>
+                
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId" placeholder="Enter Student ID (e.g., STU001)">
+                </div>
+
+                <button class="btn btn-primary" onclick="searchStudent()">Search Student</button>
+
+                <div id="studentDetails" style="display: none; margin-top: 20px;">
+                    <div class="student-info">
+                        <div class="info-row">
+                            <span class="info-label">Student Name:</span>
+                            <span class="info-value" id="displayName">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Class/Grade:</span>
+                            <span class="info-value" id="displayClass">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Roll Number:</span>
+                            <span class="info-value" id="displayRoll">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Academic Year:</span>
+                            <span class="info-value" id="displayYear">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Total Due:</span>
+                            <span class="info-value" style="color: #f44336;" id="displayDue">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fee Structure Card -->
+            <div class="card">
+                <h2>💰 Fee Structure</h2>
+
+                <div id="feeStructureSection" style="display: none;">
+                    <div class="alert alert-info">
+                        Select the fees you want to pay
+                    </div>
+
+                    <div class="fee-structure" id="feeItems">
+                        <!-- Fee items will be populated here -->
+                    </div>
+
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Discount:</span>
+                            <span id="discount">₹0</span>
+                        </div>
+                        <div class="total-row" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 15px; margin-top: 10px;">
+                            <span>Total Amount:</span>
+                            <span class="total-amount" id="totalAmount">₹0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method Card -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <h2>💳 Payment Method</h2>
+
+                <div id="paymentMethodSection" style="display: none;">
+                    <div class="payment-methods">
+                        <div class="payment-method" onclick="selectPaymentMethod('credit-card')">
+                            <div class="payment-method-icon">💳</div>
+                            <div class="payment-method-name">Credit/Debit Card</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod('upi')">
+                            <div class="payment-method-icon">📱</div>
+                            <div class="payment-method-name">UPI</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod('netbanking')">
+                            <div class="payment-method-icon">🏦</div>
+                            <div class="payment-method-name">Net Banking</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod('cash')">
+                            <div class="payment-method-icon">💵</div>
+                            <div class="payment-method-name">Cash</div>
+                        </div>
+                    </div>
+
+                    <div id="paymentDetails" style="display: none;">
+                        <!-- Payment details form will appear here -->
+                    </div>
+
+                    <button class="btn btn-success" id="payBtn" onclick="processPayment()" disabled>
+                        🔒 Proceed to Payment
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payment History -->
+            <div class="card payment-history">
+                <h2>📜 Payment History</h2>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Transaction ID</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #999;">No payment history</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Receipt -->
+        <div class="receipt" id="receipt">
+            <div class="receipt-header">
+                <h1>🎓 Payment Receipt</h1>
+                <p>Greenwood International School & College</p>
+                <p style="font-size: 0.9em;">123 Education Street, Academic City, ST 12345</p>
+                <p style="font-size: 0.9em;">Phone: +1 (555) 123-4567 | Email: fees@greenwood.edu</p>
+            </div>
+
+            <div class="transaction-id">
+                <div class="transaction-id-label">Transaction ID</div>
+                <div class="transaction-id-value" id="receiptTransactionId">-</div>
+            </div>
+
+            <div class="receipt-body">
+                <div class="receipt-section">
+                    <h3>Student Information</h3>
+                    <div class="student-info">
+                        <div class="info-row">
+                            <span class="info-label">Student Name:</span>
+                            <span class="info-value" id="receiptStudentName">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Student ID:</span>
+                            <span class="info-value" id="receiptStudentId">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Class/Grade:</span>
+                            <span class="info-value" id="receiptClass">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Roll Number:</span>
+                            <span class="info-value" id="receiptRoll">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="receipt-section">
+                    <h3>Payment Details</h3>
+                    <table class="receipt-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receiptItemsBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="receipt-section">
+                    <div class="info-row">
+                        <span class="info-label">Payment Method:</span>
+                        <span class="info-value" id="receiptPaymentMethod">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Payment Date:</span>
+                        <span class="info-value" id="receiptDate">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span class="status-badge">PAID</span>
+                    </div>
+                </div>
+
+                <div class="receipt-total">
+                    <span>Total Amount Paid:</span>
+                    <span id="receiptTotal">₹0</span>
+                </div>
+            </div>
+
+            <div class="receipt-footer">
+                <p><strong>Thank you for your payment!</strong></p>
+                <p style="margin-top: 10px; font-size: 0.9em;">
+                    This is a computer-generated receipt and does not require a signature.
+                </p>
+                <p style="margin-top: 5px; font-size: 0.85em; color: #999;">
+                    For any queries, please contact the accounts department.
+                </p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-print" onclick="printReceipt()">🖨️ Print Receipt</button>
+                <button class="btn btn-download" onclick="downloadReceipt()">📥 Download PDF</button>
+                <button class="btn btn-new" onclick="newPayment()">➕ New Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample student database
+        const studentDatabase = {
+            "STU001": {
+                id: "STU001",
+                name: "Emma Johnson",
+                class: "Grade 10 - A",
+                roll: "10A-015",
+                year: "2024-2025",
+                fees: [
+                    { name: "Tuition Fee", amount: 25000, paid: false },
+                    { name: "Laboratory Fee", amount: 5000, paid: false },
+                    { name: "Library Fee", amount: 2000, paid: false },
+                    { name: "Sports Fee", amount: 3000, paid: false },
+                    { name: "Computer Lab Fee", amount: 4000, paid: false },
+                    { name: "Transport Fee", amount: 8000, paid: false }
+                ],
+                discount: 2000
+            },
+            "STU002": {
+                id: "STU002",
+                name: "Michael Chen",
+                class: "Grade 12 - B",
+                roll: "12B-022",
+                year: "2024-2025",
+                fees: [
+                    { name: "Tuition Fee", amount: 30000, paid: false },
+                    { name: "Laboratory Fee", amount: 7000, paid: false },
+                    { name: "Library Fee", amount: 2500, paid: false },
+                    { name: "Sports Fee", amount: 3500, paid: false },
+                    { name: "Computer Lab Fee", amount: 5000, paid: false }
+                ],
+                discount: 3000
+            },
+            "STU003": {
+                id: "STU003",
+                name: "Sarah Williams",
+                class: "Grade 8 - C",
+                roll: "8C-008",
+                year: "2024-2025",
+                fees: [
+                    { name: "Tuition Fee", amount: 20000, paid: false },
+                    { name: "Laboratory Fee", amount: 4000, paid: false },
+                    { name: "Library Fee", amount: 1500, paid: false },
+                    { name: "Sports Fee", amount: 2500, paid: false },
+                    { name: "Art & Craft Fee", amount: 2000, paid: false },
+                    { name: "Transport Fee", amount: 7000, paid: false }
+                ],
+                discount: 1500
+            }
+        };
+
+        let currentStudent = null;
+        let selectedFees = [];
+        let selectedPaymentMethod = null;
+        let paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPaymentHistory();
+        });
+
+        function searchStudent() {
+            const studentId = document.getElementById('studentId').value.trim().toUpperCase();
+            
+            if (!studentId) {
+                alert('Please enter a Student ID');
+                return;
+            }
+
+            const student = studentDatabase[studentId];
+
+            if (!student) {
+                alert('Student not found. Please check the ID.');
+                return;
+            }
+
+            currentStudent = student;
+            displayStudentInfo(student);
+            displayFeeStructure(student);
+            document.getElementById('paymentMethodSection').style.display = 'block';
+        }
+
+        function displayStudentInfo(student) {
+            document.getElementById('displayName').textContent = student.name;
+            document.getElementById('displayClass').textContent = student.class;
+            document.getElementById('displayRoll').textContent = student.roll;
+            document.getElementById('displayYear').textContent = student.year;
+            
+            const totalDue = student.fees.reduce((sum, fee) => sum + (fee.paid ? 0 : fee.amount), 0);
+            document.getElementById('displayDue').textContent = '₹' + totalDue.toLocaleString();
+
+            document.getElementById('studentDetails').style.display = 'block';
+        }
+
+        function displayFeeStructure(student) {
+            const feeItems = document.getElementById('feeItems');
+            feeItems.innerHTML = '';
+
+            student.fees.forEach((fee, index) => {
+                const feeItem = document.createElement('div');
+                feeItem.className = 'fee-item';
+                feeItem.innerHTML = `
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="fee-${index}" ${fee.paid ? 'disabled checked' : ''} 
+                               onchange="toggleFee(${index}, ${fee.amount})">
+                        <label for="fee-${index}" class="fee-item-name">
+                            ${fee.name} ${fee.paid ? '(Paid)' : ''}
+                        </label>
+                    </div>
+                    <div class="fee-item-amount">₹${fee.amount.toLocaleString()}</div>
+                `;
+                feeItems.appendChild(feeItem);
+            });
+
+            document.getElementById('feeStructureSection').style.display = 'block';
+            updateTotal();
+        }
+
+        function toggleFee(index, amount) {
+            const checkbox = document.getElementById(`fee-${index}`);
+            
+            if (checkbox.checked) {
+                selectedFees.push({ index, amount, name: currentStudent.fees[index].name });
+            } else {
+                selectedFees = selectedFees.filter(f => f.index !== index);
+            }
+
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const subtotal = selectedFees.reduce((sum, fee) => sum + fee.amount, 0);
+            const discount = selectedFees.length > 0 ? currentStudent.discount : 0;
+            const total = subtotal - discount;
+
+            document.getElementById('subtotal').textContent = '₹' + subtotal.toLocaleString();
+            document.getElementById('discount').textContent = '₹' + discount.toLocaleString();
+            document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString();
+
+            // Enable/disable pay button
+            const payBtn = document.getElementById('payBtn');
+            if (selectedFees.length > 0 && selectedPaymentMethod) {
+                payBtn.disabled = false;
+                payBtn.innerHTML = '✓ Proceed to Payment';
+            } else {
+                payBtn.disabled = true;
+                payBtn.innerHTML = '🔒 Proceed to Payment';
+            }
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add selection to clicked method
+            event.target.closest('.payment-method').classList.add('selected');
+            selectedPaymentMethod = method;
+
+            // Show payment details form
+            const paymentDetails = document.getElementById('paymentDetails');
+            paymentDetails.style.display = 'block';
+            
+            let formHTML = '';
+            switch(method) {
+                case 'credit-card':
+                    formHTML = `
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" placeholder="Name on Card">
+                        </div>
+                    `;
+                    break;
+                case 'upi':
+                    formHTML = `
+                        <div class="form-group">
+                            <label>UPI ID</label>
+                            <input type="text" placeholder="username@upi">
+                        </div>
+                    `;
+                    break;
+                case 'netbanking':
+                    formHTML = `
+                        <div class="form-group">
+                            <label>Select Bank</label>
+                            <select>
+                                <option>State Bank of India</option>
+                                <option>HDFC Bank</option>
+                                <option>ICICI Bank</option>
+                                <option>Axis Bank</option>
+                                <option>Punjab National Bank</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                case 'cash':
+                    formHTML = `
+                        <div class="alert alert-info">
+                            Please visit the accounts office to complete the cash payment.
+                        </div>
+                    `;
+                    break;
+            }
+
+            paymentDetails.innerHTML = formHTML;
+            updateTotal();
+        }
+
+        function processPayment() {
+            if (selectedFees.length === 0) {
+                alert('Please select at least one fee to pay');
+                return;
+            }
+
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            // Simulate payment processing
+            const payBtn = document.getElementById('payBtn');
+            payBtn.innerHTML = '⏳ Processing...';
+            payBtn.disabled = true;
+
+            setTimeout(() => {
+                const transactionId = 'TXN' + Date.now();
+                const paymentDate = new Date().toLocaleString();
+                const subtotal = selectedFees.reduce((sum, fee) => sum + fee.amount, 0);
+                const total = subtotal - currentStudent.discount;
+
+                // Mark fees as paid
+                selectedFees.forEach(fee => {
+                    currentStudent.fees[fee.index].paid = true;
+                });
+
+                // Add to payment history
+                const payment = {
+                    transactionId,
+                    date: paymentDate,
+                    studentId: currentStudent.id,
+                    studentName: currentStudent.name,
+                    items: selectedFees.map(f => f.name),
+                    amount: total,
+                    paymentMethod: selectedPaymentMethod,
+                    status: 'Paid'
+                };
+
+                paymentHistory.push(payment);
+                localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
+
+                // Show receipt
+                showReceipt(payment);
+                renderPaymentHistory();
+
+            }, 2000);
+        }
+
+        function showReceipt(payment) {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('receipt').classList.add('show');
+
+            // Fill receipt details
+            document.getElementById('receiptTransactionId').textContent = payment.transactionId;
+            document.getElementById('receiptStudentName').textContent = payment.studentName;
+            document.getElementById('receiptStudentId').textContent = payment.studentId;
+            document.getElementById('receiptClass').textContent = currentStudent.class;
+            document.getElementById('receiptRoll').textContent = currentStudent.roll;
+            document.getElementById('receiptDate').textContent = payment.date;
+            document.getElementById('receiptPaymentMethod').textContent = getPaymentMethodName(payment.paymentMethod);
+            document.getElementById('receiptTotal').textContent = '₹' + payment.amount.toLocaleString();
+
+            // Fill receipt items
+            const receiptItemsBody = document.getElementById('receiptItemsBody');
+            receiptItemsBody.innerHTML = '';
+
+            selectedFees.forEach(fee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fee.name}</td>
+                    <td>₹${fee.amount.toLocaleString()}</td>
+                `;
+                receiptItemsBody.appendChild(row);
+            });
+
+            // Add discount row
+            if (currentStudent.discount > 0) {
+                const discountRow = document.createElement('tr');
+                discountRow.innerHTML = `
+                    <td><strong>Discount</strong></td>
+                    <td><strong>- ₹${currentStudent.discount.toLocaleString()}</strong></td>
+                `;
+                receiptItemsBody.appendChild(discountRow);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getPaymentMethodName(method) {
+            const names = {
+                'credit-card': 'Credit/Debit Card',
+                'upi': 'UPI',
+                'netbanking': 'Net Banking',
+                'cash': 'Cash'
+            };
+            return names[method] || method;
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        function downloadReceipt() {
+            alert('Receipt download functionality would integrate with a PDF library in production. For now, please use the Print option and save as PDF.');
+        }
+
+        function newPayment() {
+            document.getElementById('receipt').classList.remove('show');
+            document.getElementById('mainContent').style.display = 'grid';
+            
+            // Reset form
+            selectedFees = [];
+            selectedPaymentMethod = null;
+            document.getElementById('studentId').value = '';
+            document.getElementById('studentDetails').style.display = 'none';
+            document.getElementById('feeStructureSection').style.display = 'none';
+            document.getElementById('paymentMethodSection').style.display = 'none';
+            
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderPaymentHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            
+            if (paymentHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #999;">No payment history</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = paymentHistory.slice().reverse().map(payment => `
+                <tr>
+                    <td>${payment.date}</td>
+                    <td>${payment.transactionId}</td>
+                    <td>${payment.items.join(', ')}</td>
+                    <td>₹${payment.amount.toLocaleString()}</td>
+                    <td><span class="status-badge">${payment.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // Allow Enter key to search
+        document.getElementById('studentId').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchStudent();
+        });
+    </script>
+</body>
+</html>
